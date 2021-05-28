@@ -1,0 +1,38 @@
+dimport React, { useEffect, useState } from "react";
+import axios from "axios";
+import { india } from "../../utils/url";
+import { Card } from "react-bootstrap";
+function India() {
+  const [status, setStatus] = useState([]);
+  useEffect(() => {
+    fetchStatus();
+  }, []);
+
+  const fetchStatus = async () => {
+    const response = await axios.get(india);
+    const st = response.data;
+    console.log(st[st.length - 1]);
+    setStatus(st[st.length - 1]);
+    // console.log(response.data.Countries);
+    // setStatus(response.data.Countries);
+  };
+  return (
+    <div>
+      {status.map((data) => {
+        return (
+          <Card>
+            <h1>{data.Country}</h1>
+            <h2>Recoverd : {data.Recovered}</h2>
+            <h2>Total : {data.Confirmed}</h2>
+            <h2>Active :{data.Active}</h2>
+            <h2>Deaths : {data.Deaths}</h2>
+            <h2>Province : {data.Province}</h2>
+            <h2>{data.Date}</h2>
+          </Card>
+        );
+      })}
+    </div>
+  );
+}
+
+export default India;
